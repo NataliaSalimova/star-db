@@ -2,23 +2,20 @@ import React, { Component } from 'react';
 
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
-import PersonDetails from '../person-details';
-import ErrorButton from '../error-button';
+import ErrorBoundry from '../error-boundry';
 import ErrorIndicator from '../error-indicator';
 
 import './app.css';
+import SwapiService from '../../services/swapi-service';
+import ItemDetails from '../item-details';
+import Row from '../row';
 
 export default class App extends Component {
-    state = {
-        selectedPerson: 5,
-        hasError: false
-    }
+    swapiService = new SwapiService();
 
-    onPersonSelected = (id) => {
-        this.setState({
-            selectedPerson: id
-        })
+    state = {
+        showRandomPlanet: true,
+        hasError: false
     }
 
     componentDidCatch(error, errorInfo) {
@@ -30,21 +27,33 @@ export default class App extends Component {
             return <ErrorIndicator />
         }
 
-        return (
-            <div className="stardb-app">
-                <Header/>
-                <RandomPlanet/>
-                <ErrorButton/>
+        const planet = this.state.showRandomPlanet ? <RandomPlanet/> : null;
 
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemList onItemsSelected = {this.onPersonSelected}/>
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails personId={this.state.selectedPerson}/>
-                    </div>
+        const { getPerson, getStarship, getPersonImage, getStarshipsImage } = this.swapiService;
+        const personDetails = (
+            <ItemDetails
+                itemId={11}
+                getData={getPerson}
+                getImageUrl={getPersonImage} />
+        )
+        const starshipDetails = (
+            <ItemDetails
+                itemId={5}
+                getData={getStarship}
+                getImageUrl={getStarshipsImage} />
+        )
+
+        return (
+            <ErrorBoundry>
+                <div className="stardb-app">
+                    <Header/>
+                    <Row
+                        left={personDetails}
+                        right={starshipDetails}
+                    />
                 </div>
-            </div>
+
+            </ErrorBoundry>
         )
     }
 };

@@ -11,7 +11,7 @@ const Record = ({item , field, label})=> {
     return (
         <li className="list-group-item">
             <span className="term">{ label }</span>
-            <span>{ field }</span>
+            <span>{ item[field] }</span>
         </li>
     );
 };
@@ -81,7 +81,7 @@ const ItemView = ({item, image, props}) => {
     const {  name, gender, birthYear, eyeColor  } = item;
 
     return (
-        <div className="item-detals card">
+        <div className="item-details card">
             <img className="item-image"
                 src={image}
                 alt="item"/>
@@ -91,7 +91,7 @@ const ItemView = ({item, image, props}) => {
                 <ul className="list-group list-group-flush">
                     {
                         React.Children.map(props.children, (child)=> {
-                            return child;
+                            return React.cloneElement(child, { item });
                         })
                     }
                 </ul>

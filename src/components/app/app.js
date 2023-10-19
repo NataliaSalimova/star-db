@@ -43,7 +43,7 @@ export default class App extends Component {
 
                         <PersonDetails itemId={11} />
 
-                        <PlanetDetails itemId={5} />
+                        <PlanetDetails itemId={7} />
 
                         <StarshipDetails itemId={9} />
 

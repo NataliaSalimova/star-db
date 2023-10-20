@@ -3,7 +3,7 @@ import React from 'react';
 import './item-list.css';
 
 const ItemList = (props) => {
-    const { data, onItemsSelected, children: renderLabel } = props;
+    const { data, onItemSelected, children: renderLabel } = props;
 
     const items = data.map((item) => {
         const { id } = item;
@@ -13,7 +13,7 @@ const ItemList = (props) => {
             <li
                 className="list-group-item"
                 key={id}
-                onClick={()=>onItemsSelected(id)}>
+                onClick={()=>onItemSelected(id)}>
                 {label}
             </li>
         )

@@ -4,9 +4,19 @@ import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 
+import PropTypes from 'prop-types';
+
 import './random-planet.css';
 
 export default class RandomPlanet extends Component {
+    static defaultProps = {
+        updateInterval: 10000
+    }
+
+    static propTypes = {
+        updateInterval: PropTypes.number
+    };
+
     swapiService = new SwapiService();
 
     state = {
@@ -16,8 +26,9 @@ export default class RandomPlanet extends Component {
     };
 
     componentDidMount() {
+        const {updateInterval} = this.props;
         this.updatePlanet();
-        this.interval = setInterval(this.updatePlanet, 5000);
+        this.interval = setInterval(this.updatePlanet, updateInterval);
     }
 
     componentWillUnmount() {
@@ -31,7 +42,7 @@ export default class RandomPlanet extends Component {
         });
     }
 
-    onError = ()=> {
+    onError = () => {
         this.setState({
             error: true,
             loading: false
@@ -47,13 +58,13 @@ export default class RandomPlanet extends Component {
     };
 
     render() {
-        const { planet, loading, error } = this.state;
+        const {planet, loading, error} = this.state;
 
         const hasData = !(loading || error);
 
         const errorMessage = error ? <ErrorIndicator/> : null;
-        const spinner = loading ? <Spinner /> : null;
-        const content = hasData ? <PlanetView planet={planet} /> : null;
+        const spinner = loading ? <Spinner/> : null;
+        const content = hasData ? <PlanetView planet={planet}/> : null;
 
         return (
             <div className="random-planet jumbotron rounded">

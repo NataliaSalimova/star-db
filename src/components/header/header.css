@@ -19,10 +19,6 @@
 	text-decoration: none;
 }
 
-.header h3 a {
-	color: white;
-}
-
 .header h3 a:hover {
 	color: #00bc8c;
 }

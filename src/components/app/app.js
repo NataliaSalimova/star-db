@@ -4,6 +4,7 @@ import Header from '../header';
 import ErrorBoundry from '../error-boundry';
 import ErrorIndicator from '../error-indicator';
 import RandomPlanet from '../random-planet';
+import {StarshipDetails} from '../sw-components';
 
 import { PeoplePage, PlanetsPage, StarshipsPage } from '../pages';
 
@@ -53,7 +54,12 @@ export default class App extends Component {
                                 <Route path="/" render={()=> <h2>Welcome to StarDB</h2>} exact/>
                                 <Route path="/people" element={<PeoplePage/>}/>
                                 <Route path="/planets" element={<PlanetsPage/>}/>
-                                <Route path="/starships" element={<StarshipsPage/>}/>
+                                <Route path="/starships" exact element={<StarshipsPage/>}/>
+                                <Route path="/starships:id"
+                                       render={(match, location, history)=> {
+                                           const { id } = match.params;
+                                           return <StarshipDetails itemId={id}/>
+                                       }}/>
                             </Routes>
                         </div>
                     </Router>

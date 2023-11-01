@@ -6,7 +6,7 @@ import ErrorIndicator from '../error-indicator';
 import RandomPlanet from '../random-planet';
 import {StarshipDetails} from '../sw-components';
 
-import { PeoplePage, PlanetsPage, StarshipsPage } from '../pages';
+import { PeoplePage, PlanetsPage, StarshipsPage, SecretPage, LoginPage  } from '../pages';
 
 import SwapiService from '../../services/swapi-service';
 import { SwapiServiceProvider } from '../swapi-service-context';
@@ -19,7 +19,14 @@ export default class App extends Component {
 
     state = {
         hasError: false,
-        swapiService: new SwapiService()
+        swapiService: new SwapiService(),
+        isLoggedId: false
+    };
+
+    onLogin = () => {
+        this.setState({
+            isLoggedIn: true
+        })
     };
 
     onServiceChange = ()=> {
@@ -37,6 +44,8 @@ export default class App extends Component {
     }
 
     render() {
+        const { isLoggedIn } = this.state;
+
         if (this.state.hasError) {
             return <ErrorIndicator />
         }
@@ -56,6 +65,21 @@ export default class App extends Component {
                                 <Route path="/planets" element={<PlanetsPage/>}/>
                                 <Route path="/starships" exact element={<StarshipsPage/>}/>
                                 <Route path="/starships/:id" element={<StarshipDetails/>}/>
+                                <Route path="/login"
+                                       element={
+                                           <LoginPage
+                                               isLoggedIn={isLoggedIn}
+                                               onLogin={this.onLogin}
+                                           />
+                                       }/>
+                                <Route
+                                    path="/secret"
+                                    element={
+                                        <SecretPage
+                                            isLoggedIn={isLoggedIn}
+                                        />
+                                    }/>
+                                <Route path={'*'} element={<h2>Page not found</h2>}/>
                             </Routes>
                         </div>
                     </Router>

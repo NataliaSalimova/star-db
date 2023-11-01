@@ -51,15 +51,11 @@ export default class App extends Component {
                             <RandomPlanet/>
 
                             <Routes>
-                                <Route path="/" render={()=> <h2>Welcome to StarDB</h2>} exact/>
-                                <Route path="/people" element={<PeoplePage/>}/>
+                                <Route path="/" element={<h2>Welcome to StarDB</h2>} exact/>
+                                <Route path="/people/:id?" element={<PeoplePage/>}/>
                                 <Route path="/planets" element={<PlanetsPage/>}/>
                                 <Route path="/starships" exact element={<StarshipsPage/>}/>
-                                <Route path="/starships:id"
-                                       render={(match, location, history)=> {
-                                           const { id } = match.params;
-                                           return <StarshipDetails itemId={id}/>
-                                       }}/>
+                                <Route path="/starships/:id" element={<StarshipDetails/>}/>
                             </Routes>
                         </div>
                     </Router>
